@@ -11,13 +11,14 @@ struct Member {
     string name;
     string contact;
     string password;
+    string membership_type;
     vector<string> fitnessProgress;
     float height; // in meters
     float weight; // in kg
     Member* next;
 
-    Member(int _id, string _name, string _contact, string _password)
-        : id(_id), name(_name), contact(_contact), password(_password), height(0), weight(0), next(nullptr) {}
+    Member(int _id, string _name, string _contact, string _password, string membership_type)
+        : id(_id), name(_name), contact(_contact), password(_password),membership_type(membership_type), height(0), weight(0), next(nullptr) {}
 
     // Function to calculate BMI
     float calculateBMI() {
@@ -30,6 +31,7 @@ struct Member {
 
     // Function to update the user profile
     void updateProfile() {
+        char x;
         cout << "\n\n\n\t\t\t^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n";
         cout << "\t\t\t< __________________________________________________________________________________ >\n";
         cout << "\t\t\t<|                                                                                  \n";
@@ -40,6 +42,18 @@ struct Member {
         getline(cin, name);
         cout << "\t\t\t<|                             ENTER NEW CONTACT:                                 \n";
         getline(cin, contact);
+        cout << "\t\t\t<|                             Do you want to change your membership type?(Press 'y' or for Yes and 'n' for No   \n";
+        cin>>x;
+        if(x='y'|| x =='Y'){
+                cout << "\t\t\t<| Enter new membership type: (Basic / Premium) \n";
+        cin.ignore();
+             getline(cin, membership_type);
+        } else if (x ='n' || x=='N'){
+        //do nothing
+        } else {
+        cout<<"Choose 'y' or 'Y' for Yes and 'n' or 'N' for No"<<endl;
+        }
+
         cout << "\t\t\t<|                             ENTER NEW PASSWORD:                               \n";
         getline(cin, password);
         cout << "\t\t\t<|                                                                                  \n";
@@ -63,53 +77,55 @@ class GymManagement {
 private:
     Member* head;
     vector<GymClass> classes;
-    unordered_map<string, string> adminAccounts;
+    unordered_map<string, string> adminAccounts;   //It provides average O(1) time complexity for insert, search, and delete operations.
 
 public:
+
+
     GymManagement() : head(nullptr) {
         adminAccounts["admin"] = "admin123";  // Default admin credentials
     }
 
-     void displayGymFacilities() {
+     void displayGymFacilities(Member *member) {
     cout << "\n\n\n\t\t\t^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n";
     cout << "\t\t\t< __________________________________________________________________________________ >\n";
-    cout << "\t\t\t<|                                                                                  |>\n";
-    cout << "\t\t\t<|                            WELCOME TO OUR GYM FACILITIES!                         |>\n";
-    cout << "\t\t\t<|                                                                                  |>\n";
-    cout << "\t\t\t<|                        Available Facilities for Your Fitness Journey:              |>\n";
-    cout << "\t\t\t<|                                                                                  |>\n";
-    cout << "\t\t\t<|   1. **Cardio Zone**:                                                          |>\n";
-    cout << "\t\t\t<|      - State-of-the-art cardio equipment including treadmills, ellipticals, and   |>\n";
-    cout << "\t\t\t<|        stationary bikes for cardiovascular fitness.                             |>\n";
-    cout << "\t\t\t<|                                                                                  |>\n";
-    cout << "\t\t\t<|   2. **Sauna & Steam Room**:                                                  |>\n";
-    cout << "\t\t\t<|      - Relax and detoxify with our sauna and steam room after your workout.      |>\n";
-    cout << "\t\t\t<|                                                                                  |>\n";
-    cout << "\t\t\t<|   3. **Strength Training Area**:                                              |>\n";
-    cout << "\t\t\t<|      - Fully equipped with free weights, weight machines, and benches to help    |>\n";
-    cout << "\t\t\t<|        you build muscle and strength.                                           |>\n";
-    cout << "\t\t\t<|                                                                                  |>\n";
-    cout << "\t\t\t<|   4. **Group Fitness Classes**:                                               |>\n";
-    cout << "\t\t\t<|      - Join our variety of group fitness classes such as yoga, pilates, Zumba,  |>\n";
-    cout << "\t\t\t<|        and more!                                                                |>\n";
-    cout << "\t\t\t<|                                                                                  |>\n";
-    cout << "\t\t\t<|   5. **Personal Training Services**:                                          |>\n";
-    cout << "\t\t\t<|      - Get personalized guidance from our certified trainers for a tailored      |>\n";
-    cout << "\t\t\t<|        workout plan.                                                            |>\n";
-    cout << "\t\t\t<|                                                                                  |>\n";
-    cout << "\t\t\t<|   6. **Nutrition Counseling**:                                                |>\n";
-    cout << "\t\t\t<|      - Consult with our nutrition experts to optimize your diet for your goals. |>\n";
-    cout << "\t\t\t<|                                                                                  |>\n";
-    cout << "\t\t\t<|   7. **Swimming Pool**:                                                       |>\n";
-    cout << "\t\t\t<|      - Refresh yourself and enjoy a swim in our heated swimming pool.           |>\n";
-    cout << "\t\t\t<|                                                                                  |>\n";
-    cout << "\t\t\t<|   8. **Massage & Recovery Area**:                                             |>\n";
-    cout << "\t\t\t<|      - Rejuvenate your muscles with our post-workout massage and recovery area.  |>\n";
-    cout << "\t\t\t<|                                                                                  |>\n";
-    cout << "\t\t\t<|                                                                                  |>\n";
-    cout << "\t\t\t<|                  Please let us know which facility you'd like to explore!       |>\n";
-    cout << "\t\t\t<|                                                                                  |>\n";
-    cout << "\t\t\t<|                                                                                  |>\n";
+    cout << "\t\t\t<|                                                                                  \n";
+    cout << "\t\t\t<|            Welcome back, " << member->name << "! ! Ready to crush your goals today?                     \n";
+    cout << "\t\t\t<|                                                                                  \n";
+    cout << "\t\t\t<|         We're glad to see you again.Get ready to sweat, smile, and feel unstoppable! \n";
+    cout << "\t\t\t<|                                                                                  \n";
+    cout << "\t\t\t<|   1. **Cardio Zone**:                                                          \n";
+    cout << "\t\t\t<|      - State-of-the-art cardio equipment including treadmills, ellipticals, and   \n";
+    cout << "\t\t\t<|        stationary bikes for cardiovascular fitness.                             \n";
+    cout << "\t\t\t<|                                                                                  \n";
+    cout << "\t\t\t<|   2. **Sauna & Steam Room**:                                                  \n";
+    cout << "\t\t\t<|      - Relax and detoxify with our sauna and steam room after your workout.      \n";
+    cout << "\t\t\t<|                                                                                  \n";
+    cout << "\t\t\t<|   3. **Strength Training Area**:                                              \n";
+    cout << "\t\t\t<|      - Fully equipped with free weights, weight machines, and benches to help    \n";
+    cout << "\t\t\t<|        you build muscle and strength.                                           \n";
+    cout << "\t\t\t<|                                                                                  \n";
+    cout << "\t\t\t<|   4. **Group Fitness Classes**:                                               \n";
+    cout << "\t\t\t<|      - Join our variety of group fitness classes such as yoga, pilates, Zumba,  \n";
+    cout << "\t\t\t<|        and more!                                                                \n";
+    cout << "\t\t\t<|                                                                                  \n";
+    cout << "\t\t\t<|   5. **Personal Training Services**:                                          \n";
+    cout << "\t\t\t<|      - Get personalized guidance from our certified trainers for a tailored      \n";
+    cout << "\t\t\t<|        workout plan.                                                            \n";
+    cout << "\t\t\t<|                                                                                  \n";
+    cout << "\t\t\t<|   6. **Nutrition Counseling**:                                                \n";
+    cout << "\t\t\t<|      - Consult with our nutrition experts to optimize your diet for your goals. \n";
+    cout << "\t\t\t<|                                                                                  \n";
+    cout << "\t\t\t<|   7. **Swimming Pool**:                                                       \n";
+    cout << "\t\t\t<|      - Refresh yourself and enjoy a swim in our heated swimming pool.           \n";
+    cout << "\t\t\t<|                                                                                  \n";
+    cout << "\t\t\t<|   8. **Massage & Recovery Area**:                                             \n";
+    cout << "\t\t\t<|      - Rejuvenate your muscles with our post-workout massage and recovery area.  \n";
+    cout << "\t\t\t<|                                                                                  \n";
+    cout << "\t\t\t<|                                                                                  \n";
+    cout << "\t\t\t<|                  Please let us know which facility you'd like to explore!       \n";
+    cout << "\t\t\t<|                                                                                  \n";
+    cout << "\t\t\t<|                                                                                  \n";
     cout << "\t\t\t<|__________________________________________________________________________________|>\n";
     cout << "\t\t\t^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n";
 }
@@ -135,42 +151,50 @@ public:
     }
 
     // Register a member (for Admin to use)
-    void addMember() {
-        int id;
-        string name, contact, password;
+ void addMember() {
+    int id;
+    string name, contact, password, membership_type;
 
-        cout << "\n\n\n\t\t\t^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n";
-        cout << "\t\t\t< __________________________________________________________________________________ >\n";
-        cout << "\t\t\t<|                                                                                  \n";
-        cout << "\t\t\t<|                                   ADD MEMBER                                    \n";
-        cout << "\t\t\t<|                                                                                  \n";
-        cout << "\t\t\t<|                             Enter Member ID:                                     \n";
-        cin >> id;
-        cout << "\t\t\t<|                             Enter Name:                                         \n";
-        cin.ignore();
-        getline(cin, name);
-        cout << "\t\t\t<|                             Enter Contact:                                     \n";
-        getline(cin, contact);
-        cout << "\t\t\t<|                             Create Password:                                   \n";
-        getline(cin, password);
+    cout << "\n\n\n\t\t\t^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n";
+    cout << "\t\t\t< __________________________________________________________________________________ >\n";
+    cout << "\t\t\t<|                                                                                  \n";
+    cout << "\t\t\t<|                                   ADD MEMBER                                    \n";
+    cout << "\t\t\t<|                                                                                  \n";
+    cout << "\t\t\t<|                             Enter Member ID:                                     \n";
+    cin >> id;
+    cout << "\t\t\t<|                             Enter Name:                                         \n";
+    cin.ignore();
+    getline(cin, name);
+    cout << "\t\t\t<|                             Enter Membership Type (Basic / Premium)            \n";
+    getline(cin, membership_type);
+    cout << "\t\t\t<|                             Enter Contact:                                     \n";
+    getline(cin, contact);
+    cout << "\t\t\t<|                             Create Password:                                   \n";
+    getline(cin, password);
 
-        Member* newMember = new Member(id, name, contact, password);
-        if (!head) {
-            head = newMember;
-        } else {
-            Member* temp = head;
-            while (temp->next) {
-                temp = temp->next;
-            }
-            temp->next = newMember;
+    // Create a new Member using the updated constructor
+    Member* newMember = new Member(id, name, contact, password, membership_type);
+
+    // Add the new member to the linked list
+    if (!head) {
+        head = newMember;  // If the list is empty, set the new member as the head
+    } else {
+        Member* temp = head;
+        while (temp->next) {  // Traverse to the last member
+            temp = temp->next;
         }
-        cout << "\n Member added successfully!\n";
+        temp->next = newMember;  // Add the new member at the end of the list
     }
+
+    cout << "\t\t\t<|                             Member Added Successfully!                         \n";
+    cout << "\t\t\t<|_________________________________________________________________________________>\n";
+}
+
 
     // Register a member (for User to use)
     void registerMember() {
         int id;
-        string name, contact, password;
+        string name, contact, password,membership_type;
 
         cout << "\n\n\n\t\t\t^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n";
         cout << "\t\t\t< __________________________________________________________________________________ >\n";
@@ -195,10 +219,13 @@ public:
         getline(cin, name);
         cout << "\t\t\t<|                             Enter Contact:                                     \n";
         getline(cin, contact);
+        cout << "\t\t\t<|                            Enter Membership Type (Basic / Premium)            \n";
+        cin.ignore();
+        getline(cin, membership_type);
         cout << "\t\t\t<|                             Create Password:                                   \n";
         getline(cin, password);
 
-        Member* newMember = new Member(id, name, contact, password);
+        Member* newMember = new Member(id, name, contact, password,membership_type);
         if (!head) {
             head = newMember;
         } else {
@@ -223,7 +250,7 @@ public:
         cout << "\t\t\t<|                                                                                  \n";
         cout << "\t\t\t<|                             Enter Member ID:                                     \n";
         cin >> id;
-        cout << "\t\t\t<|                             Enter Password:                                     |>\n";
+        cout << "\t\t\t<|                             Enter Password:                                     \n";
         cin.ignore();
         getline(cin, password);
 
@@ -231,7 +258,7 @@ public:
         while (temp) {
             if (temp->id == id && temp->password == password) {
                 cout << "\n Login successful!\n";
-                displayGymFacilities();
+                displayGymFacilities(temp);
 
                 return temp;
             }
@@ -255,12 +282,12 @@ public:
         cout << "\t\t\t<|                            Available Classes:                                    \n";
 
         if (classes.empty()) {
-            cout << "\t\t\t<|                               No classes available.                           |>\n";
+            cout << "\t\t\t<|                               No classes available.                           |\n";
         } else {
             for (const auto& gymClass : classes) {
                 cout << "\t\t\t<| Class: " << gymClass.className << ", Schedule: " << gymClass.schedule
                      << ", Trainer: " << gymClass.trainerName << ", Capacity: " << gymClass.capacity
-                     << " (Enrolled: " << gymClass.enrolled << ")                              |>\n";
+                     << " (Enrolled: " << gymClass.enrolled << ")                              \n";
             }
         }
 
@@ -282,7 +309,7 @@ public:
                 return;
             }
         }
-        cout << "\n⚠️ Class not found!\n";
+        cout << "\n Class not found!\n";
     }
 
     void displayMembers() {
@@ -297,7 +324,7 @@ public:
         } else {
             Member* temp = head;
             while (temp) {
-                cout << "\t\t\t<| ID: " << temp->id << ", Name: " << temp->name << ", Contact: " << temp->contact << " |>\n";
+                cout << "\t\t\t<| ID: " << temp->id << ", Name: " << temp->name << ", Contact: " << temp->contact << ", Membership type:" <<temp ->membership_type <<" \n";
                 temp = temp->next;
             }
         }
@@ -351,42 +378,52 @@ int main() {
     GymManagement gym;
     string userType;
 
-    cout << "\n Welcome to the Gym Management System! \n";
+   cout << "\t\t\t*****************************************************\n";
+cout << "\t\t\t*                                                   *\n";
+cout << "\t\t\t*      WELCOME TO THE GYM MANAGEMENT SYSTEM!        *\n";
+cout << "\t\t\t*                                                   *\n";
+cout << "\t\t\t*****************************************************\n";
+
     while (true) {
-        cout << "\nAre you an ADMIN or USER? (Enter 'exit' to quit): ";
+        cout << "\t\t\t-----------------------------------------------------------\n";
+cout << "\t\t\t|               Are you an ADMIN or USER?                 |\n";
+cout << "\t\t\t|           (Enter 'exit' to quit the system)             |\n";
+cout << "\t\t\t-----------------------------------------------------------\n";
         cin >> userType;
 
         if (userType == "exit") break;
+
         if (userType == "admin" || userType == "ADMIN") {
             if (gym.adminLogin()) {
                 int choice;
                 while (true) {
-                    cout << "\n\n\n\t\t\t^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n";
-                    cout << "\t\t\t< __________________________________________________________________________________ >\n";
-                    cout << "\t\t\t<|                                                                                  \n";
-                    cout << "\t\t\t<|                                ADMIN MENU                                       \n";
-                    cout << "\t\t\t<|                                                                                  \n";
-                    cout << "\t\t\t<| 1. Add Member                                                               \n";
-                    cout << "\t\t\t<| 2. Add Class                                                         \n";
-                    cout << "\t\t\t<| 3. Display Classes                                                         \n";
-                    cout << "\t\t\t<| 4. Search Member by ID                                                     \n";
-                    cout << "\t\t\t<| 5. Delete Member                                                           \n";
-                    cout << "\t\t\t<| 6. Display All Members                                                    \n";
-                    cout << "\t\t\t<| 7. Logout                                                                  \n";
-                    cout << "\t\t\t<| Enter choice:                                                               \n";
+                    cout << "\n\n\n\t\t\t-----------------------------------------------------------\n";
+                    cout << "\t\t\t|                     ADMIN MENU                            |\n";
+                    cout << "\t\t\t-----------------------------------------------------------\n";
+                    cout << "\t\t\t| 1. Add Member                                             |\n";
+                    cout << "\t\t\t| 2. Add Class                                              |\n";
+                    cout << "\t\t\t| 3. Display Classes                                        |\n";
+                    cout << "\t\t\t| 4. Search Member by ID                                    |\n";
+                    cout << "\t\t\t| 5. Delete Member                                          |\n";
+                    cout << "\t\t\t| 6. Display All Members                                    |\n";
+                    cout << "\t\t\t| 7. Logout                                                 |\n";
+                    cout << "\t\t\t-----------------------------------------------------------\n";
+                    cout << "\t\t\t| Enter choice:                                             |\n";
+                    cout << "\t\t\t-----------------------------------------------------------\n";
                     cin >> choice;
 
                     if (choice == 2) {
                         string className, schedule, trainerName;
                         int capacity;
-                        cout << "\t\t\t<| Enter Class Name:                                                        |>\n";
+                        cout << "\t\t\t-----------------------------------------------------------\n";
+                        cout << "\t\t\t| Enter Class Name:                                        |\n";
                         cin.ignore();
                         getline(cin, className);
-                        cout << "\t\t\t<| Enter Schedule:                                                          |>\n";
+                        cout << "\t\t\t| Enter Schedule:                                          |\n";
                         getline(cin, schedule);
-                        cout << "\t\t\t<| Enter Trainer Name:                                                     |>\n";
+                        cout << "\t\t\t| Enter Trainer Name:                                      |\n";
                         getline(cin, trainerName);
-                        cout << "\t\t\t<| Enter Capacity:                                                         |>\n";
+                        cout << "\t\t\t| Enter Capacity:                                          |\n";
                         cin >> capacity;
                         gym.addClass(className, schedule, trainerName, capacity);
 
@@ -398,18 +435,22 @@ int main() {
 
                     } else if (choice == 4) {
                         int memberId;
-                        cout << "\t\t\t<| Enter Member ID to search:                                             |>\n";
+                        cout << "\t\t\t-----------------------------------------------------------\n";
+                        cout << "\t\t\t| Enter Member ID to search:                               |\n";
+                        cout << "\t\t\t-----------------------------------------------------------\n";
                         cin >> memberId;
                         Member* member = gym.searchMemberByID(memberId);
                         if (member) {
-                            cout << "\nMember Found: ID: " << member->id << ", Name: " << member->name << ", Contact: " << member->contact << "\n";
+                            cout << "\n\t\t\tMember Found: ID: " << member->id << ", Name: " << member->name << ", Contact: " << member->contact << "\n";
                         } else {
-                            cout << "\n Member not found!\n";
+                            cout << "\n\t\t\tMember not found!\n";
                         }
 
                     } else if (choice == 5) {
                         int memberId;
-                        cout << "\t\t\t<| Enter Member ID to delete:                                             |>\n";
+                        cout << "\t\t\t-----------------------------------------------------------\n";
+                        cout << "\t\t\t| Enter Member ID to delete:                               |\n";
+                        cout << "\t\t\t-----------------------------------------------------------\n";
                         cin >> memberId;
                         gym.deleteMember(memberId);
                     } else if (choice == 6) {
@@ -418,7 +459,14 @@ int main() {
                 }
             }
         } else if (userType == "user" || userType == "USER") {
-            cout << "\n1. Register \n2. Login\nEnter choice: ";
+            cout << "\n\t\t\t-----------------------------------------------------------\n";
+            cout << "\t\t\t|   USER MENU                                              |\n";
+            cout << "\t\t\t-----------------------------------------------------------\n";
+            cout << "\t\t\t| 1. Register                                              |\n";
+            cout << "\t\t\t| 2. Login                                                 |\n";
+            cout << "\t\t\t-----------------------------------------------------------\n";
+            cout << "\t\t\t| Enter choice:                                            |\n";
+            cout << "\t\t\t-----------------------------------------------------------\n";
             int choice;
             cin >> choice;
             if (choice == 1) {
@@ -427,40 +475,41 @@ int main() {
                 Member* member = gym.memberLogin();
                 if (member) {
                     while (true) {
-                        cout << "\n\n\n\t\t\t^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\n";
-                        cout << "\t\t\t< __________________________________________________________________________________ ";
-                        cout << "\t\t\t<|                                                                                  \n";
-                        cout << "\t\t\t<|                               USER MENU                                       \n";
-                        cout << "\t\t\t<|                                                                                  \n";
-                        cout << "\t\t\t<| 1. View Profile                                                           \n";
-                        cout << "\t\t\t<| 2. Sign Up for Class                                                      \n";
-                        cout << "\t\t\t<| 3. View Classes                                                           \n";
-                        cout << "\t\t\t<| 4. Update Profile                                                         \n";
-                        cout << "\t\t\t<| 5. Calculate BMI                                                          \n";
-                        cout << "\t\t\t<| 6. Logout                                                                 \n";
-                        cout << "\t\t\t<| Enter choice:                                                              \n";
+                        cout << "\n\n\n\t\t\t-----------------------------------------------------------\n";
+                        cout << "\t\t\t|                     USER MENU                            |\n";
+                        cout << "\t\t\t-----------------------------------------------------------\n";
+                        cout << "\t\t\t| 1. View Profile                                          |\n";
+                        cout << "\t\t\t| 2. Sign Up for Class                                     |\n";
+                        cout << "\t\t\t| 3. View Classes                                          |\n";
+                        cout << "\t\t\t| 4. Update Profile                                        |\n";
+                        cout << "\t\t\t| 5. Calculate BMI                                         |\n";
+                        cout << "\t\t\t| 6. Logout                                                |\n";
+                        cout << "\t\t\t-----------------------------------------------------------\n";
+                        cout << "\t\t\t| Enter choice:                                            |\n";
+                        cout << "\t\t\t-----------------------------------------------------------\n";
                         cin >> choice;
 
                         if (choice == 3) gym.displayClasses();
 
                         else if (choice == 2) {
                             string className;
-                            cout << "\t\t\t<| Enter Class Name:                                                        \n";
+                            cout << "\t\t\t-----------------------------------------------------------\n";
+                            cout << "\t\t\t| Enter Class Name:                                        |\n";
                             cin.ignore();
                             getline(cin, className);
                             gym.signUpForClass(member, className);
 
                         } else if (choice == 1) {
-                            cout << "\nProfile:\nName: " << member->name << "\nContact: " << member->contact << "\n";
+                            cout << "\nProfile:\nName: " << member->name << "\nContact: " << member->contact << "\nMembership type: "<< member-> membership_type<< "\n";
 
                         } else if (choice == 4) {
                             member->updateProfile();
 
                         } else if (choice == 5) {
-
-                            cout << "\t\t\t<| Enter your height in meters:                                          \n";
+                            cout << "\t\t\t-----------------------------------------------------------\n";
+                            cout << "\t\t\t| Enter your height in meters:                             |\n";
                             cin >> member->height;
-                            cout << "\t\t\t<| Enter your weight in kg:                                              \n";
+                            cout << "\t\t\t| Enter your weight in kg:                                 |\n";
                             cin >> member->weight;
 
                             float bmi = member->calculateBMI();
@@ -474,7 +523,9 @@ int main() {
                 }
             }
         } else {
-            cout << "\n  Invalid input! Please enter 'USER' or 'ADMIN'. ⚠️\n";
+            cout << "\n\t\t\t-----------------------------------------------------------\n";
+            cout << "\t\t\t|  Invalid input! Please enter 'USER' or 'ADMIN'.      |\n";
+            cout << "\t\t\t-----------------------------------------------------------\n";
         }
     }
     return 0;
